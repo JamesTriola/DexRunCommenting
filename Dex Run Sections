@@ -1,0 +1,40 @@
+Dex Run Sections
+
+
+Headers 7-26
+Declarations 29-278
+Define Variables 285 -386
+Wigglesworth Code 399-1123
+{
+	Init 399-414
+		Define Link Lengths 414
+	Vector Functions 415-565
+	Geometry fuctions 569-598
+	Vector Maths & Coordinates 605-677
+	Kinematic functions 680 -778
+	Forward kinematic calculations 782-919
+	Inverse Kinematic Calculations 923-1112
+	End effector Speed to arm rotational speed 	1114-1123
+}
+Variable Definitions 1145-1279
+Memeory Table Update Function 1284-1333
+FPGA UART Communication 1335-1460
+RealTime Monitor 1483-1561
+Gripper Motor Functions 1573 - 1590
+Server Code 1591-1723
+	//This server code not only establishes a server but also carriews out the functionality of that code(does not return to main thread to complete a command)
+Server Send Receive Proceesing 1724-1927
+Client Socket 1930-2000
+Terminal I/O Settings 2002-2028
+Input Parsed Utilities 2030-3303
+{
+	
+}
+Get Input/Input Parse 3314-3712
+Main 3714-3866
+	// Main fuction sets the mode of the robot and then establishes a corresponding server thread
+	// After establishing the server thread, the main function sits in forever loop
+	// If a new thread can't be created the program outputs an error and then closes
+
+
+

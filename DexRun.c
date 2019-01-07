@@ -3,7 +3,7 @@
 //#define DEBUG_XL320_UART
 // this is the TinyDuinoIntegration
 
-
+//Header Files
 #include <stddef.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -25,7 +25,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
-
+// Declarations
 #define L1_TABLE 0x600000
 #define L1_TABLE_LENGTH 0xa8000
 
@@ -281,7 +281,7 @@
 
 
 
-
+//Variable Definitions
 int OldMemMapInderection[90]={0,0,0,0,0,ACCELERATION_MAXSPEED,0,0,0,0,0,0,0,0,0,0,0,0,0,0,PID_P,PID_ADDRESS,0,0,0,0,0,SPEED_FACTORA,BETA_XYZ,0,0,0,0,0,MOVE_TRHESHOLD,F_FACTOR,MAX_ERROR,0,0,0,0,0,COMMAND_REG,
 	DMA_CONTROL,DMA_WRITE_DATA,DMA_WRITE_PARAMS,DMA_WRITE_ADDRESS,DMA_READ_PARAMS,DMA_READ_ADDRESS,REC_PLAY_CMD,REC_PLAY_TIMEBASE,MAXSPEED_XYZ,DIFF_FORCE_BETA,DIFF_FORCE_MOVE_THRESHOLD,
 	DIFF_FORCE_MAX_SPEED,DIFF_FORCE_SPEED_FACTOR_ANGLE,DIFF_FORCE_SPEED_FACTOR_ROT, EXTRUDER_CONTROL,0,0,0,0,0,0,0,0,0,    BASE_FORCE_DECAY,END_FORCE_DECAY,PIVOT_FORCE_DECAY,ANGLE_FORCE_DECAY,ROTATE_FORCE_DECAY  ,0,0,0,0,0,0,RESET_PID_AND_FLUSH_QUEUE,XYZ_FORCE_TIMEBASE,DIFFERENTIAL_FORCE_TIMEBASE,PID_TIMEBASE,0,0,0,0};
@@ -289,7 +289,7 @@ int OldMemMapInderection[90]={0,0,0,0,0,ACCELERATION_MAXSPEED,0,0,0,0,0,0,0,0,0,
 
 int ADLookUp[5] = {BASE_SIN,END_SIN,PIVOT_SIN,ANGLE_SIN,ROT_SIN};
 
-//commands
+//command number definitions
 
 #define MOVE_CMD 1
 #define READ_CMD 2
@@ -407,17 +407,20 @@ int ADLookUp[5] = {BASE_SIN,END_SIN,PIVOT_SIN,ANGLE_SIN,ROT_SIN};
 //#include <stdlib.h> //defined above
 //#include <stdbool.h>
 
-
+//Variable Definitions
 // Vector Library:
 #define PI (3.141592653589793)
 //double L[5] = { 0.1651, 0.320675, 0.3302, 0.0508, 0.08255 }; // (meters)
+//Link Lengths
 double L[5] = { 282500, 135000, 235000, 156500, 41250 }; // (microns)
+
+
 struct Vector {
 	double x, y, z;
 };
 
-
-struct Vector new_vector(double x, double y, double z) {
+//Vector Functions
+struct Vector new_vector(double x, double y, double z) { //construct a vector from three doubles
 	struct Vector a;
 	a.x = x;
 	a.y = y;
@@ -565,7 +568,7 @@ struct Vector project_onto_plane(struct Vector vector, struct Vector plane) {
 }
 
 
-
+//Geometry Functions
 #define arcsec_to_rad PI/(180*3600); // Floating point error may be a problem
 #define rad_to_arcsec (180*3600)/PI;
 double sin_arcsec(double theta) {
@@ -601,7 +604,7 @@ double atan2_arcsec(double num1, double num2) {
 
 
 
-
+//Vector Maths & Coordinates
 struct Vector rotate(struct Vector vector, struct Vector plane, double theta) {
 	if (is_equal(vector, plane, 14)) {
 		return vector;
@@ -1111,6 +1114,8 @@ struct J_angles xyz_to_J_angles(struct XYZ xyz) {
 	return J;
 }
 
+// End effector speed to rotational arm speed
+
 int k_tip_speed_to_angle_speed(struct J_angles J_angles_old, struct J_angles J_angles_new, double cart_speed){
 	struct Vector EE_point_1 = J_angles_to_xyz(J_angles_old).position;
 	struct Vector EE_point_2 = J_angles_to_xyz(J_angles_old).position;
@@ -1141,7 +1146,7 @@ int k_tip_speed_to_angle_speed(struct J_angles J_angles_old, struct J_angles J_a
 
 
 
-
+// Variable Definitions
 int XLowBound[5]={BASE_COS_LOW,END_COS_LOW,PIVOT_COS_LOW,ANGLE_COS_LOW,ROT_COS_LOW};
 int XHighBound[5]={BASE_COS_HIGH,END_COS_HIGH,PIVOT_COS_HIGH,ANGLE_COS_HIGH,ROT_COS_HIGH};
 int YLowBound[5]={BASE_SIN_LOW,END_SIN_LOW,PIVOT_SIN_LOW,ANGLE_SIN_LOW,ROT_SIN_LOW};
@@ -1279,7 +1284,7 @@ struct UARTTransactionPacket{
 };
 
 
-
+//Update Memory Table
 
 unsigned short update_crc(unsigned short crc_accum, unsigned char *data_blk_ptr, unsigned short data_blk_size)
 {
@@ -1331,6 +1336,9 @@ unsigned short update_crc(unsigned short crc_accum, unsigned char *data_blk_ptr,
 
 	return crc_accum;
 }
+
+
+//FPGA UART Communication
 
 void UnloadUART(unsigned char* RxBuffer,int length)
 {
@@ -1471,6 +1479,8 @@ void printPosition()
 
 }
 
+
+// Real time monitor
 int sign(int i)
 {
 	if(i<0)
@@ -1559,6 +1569,9 @@ void RealtimeMonitor(void *arg)
 	}
 	//printf("\nMonitor Thread Exiting\n");
 }
+
+//Gripper Motor Functions
+
 void SetGripperRoll(int Possition)
 {
    SendGoalSetPacket(Possition, 3);
@@ -1588,6 +1601,8 @@ void SetGripperMotor(int state)
 	mapped[GRIPPER_MOTOR_OFF_WIDTH]=0;
 	mapped[GRIPPER_MOTOR_CONTROL]=state;
 }
+
+//Server Code
 void StartServerSocketDDE(void *arg)
 {
 	struct timeval tv;
@@ -1721,6 +1736,9 @@ void StartServerSocket(void *arg)
     }
 
 }
+
+
+//Server Send Receive Proceesing
 int MaxForce(int Max,int Val)
 {
 	if(abs(Max) > abs(Val))
@@ -1926,7 +1944,7 @@ bool ProcessServerReceiveDataDDE(char *recBuff)
 	return TRUE;
 }
 
-
+// Client Socket
 void StartClientSocket()
 {
     int sockfd = 0, n = 0,j;
@@ -1989,6 +2007,9 @@ int GetAxisCurrent(int Axis)
 {
 	return getNormalizedInput(BASE_POSITION_AT+Axis)+getNormalizedInput(BASE_POSITION_FORCE_DELTA+Axis);
 }
+
+
+
 /* Initialize new terminal i/o settings */
 void initTermios(int echo) 
 {
@@ -2004,6 +2025,8 @@ void resetTermios(void)
 {
   tcsetattr(0, TCSANOW, &old);
 }
+
+//Input Parsed Utilities 
 
 /* Read 1 character - echo defines echo mode */
 char getch_(int echo) 
