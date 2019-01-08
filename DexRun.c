@@ -25,7 +25,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
-// Declarations
+// Macro Declarations
 #define L1_TABLE 0x600000
 #define L1_TABLE_LENGTH 0xa8000
 
@@ -102,9 +102,6 @@
 #define CMD_CAPCAL_ROT 2048
 #define CMD_ANGLE_ENABLE 4096
 #define CMD_ROT_ENABLE 8196
-
-
-
 
 
 
@@ -384,12 +381,6 @@ int ADLookUp[5] = {BASE_SIN,END_SIN,PIVOT_SIN,ANGLE_SIN,ROT_SIN};
 #define bool int
 #define TRUE 1
 #define FALSE 0
-
-
-
-
-
-
 
 
 
@@ -2386,7 +2377,7 @@ void wait_fifo_flush(void)
 	}
 }
 int HashInputCMD(char *s)
-{
+{//Should we handle this with 
 
 	if(s[0]=='r')
 		return READ_CMD;
@@ -3334,7 +3325,7 @@ int getInput(void)
 	
 }
 
-int ParseInput(char *iString)
+int ParseInput(char *iString) //where communcations are taken in get taken in and translated into commands
 {
 	//char iString[255];
 	const char delimiters[] = " ,";

@@ -16,21 +16,41 @@ Wigglesworth Code 399-1123
 	Inverse Kinematic Calculations 923-1112
 	End effector Speed to arm rotational speed 	1114-1123
 }
+
 Variable Definitions 1145-1279
+{
+	
+}
 Memeory Table Update Function 1284-1333
-FPGA UART Communication 1335-1460
+
+Servo UART Communication 1335-1460 
+	//This is useful for communicating with end effector servos
+
 RealTime Monitor 1483-1561
-Gripper Motor Functions 1573 - 1590
+	// Spits out real time info about the state of the robot and its hardware
+
+Gripper Motor Functions 1573 - 1590 
+	//If the ende effector is a gripper this code would be useful
+
 Server Code 1591-1723
 	//This server code not only establishes a server but also carriews out the functionality of that code(does not return to main thread to complete a command)
+
 Server Send Receive Proceesing 1724-1927
+	// Translates the oplets recieved from the UI to commands for DexRun/FPGA
+
 Client Socket 1930-2000
+	//
 Terminal I/O Settings 2002-2028
+	// This sets up the program I/O
+	// Possibly used to create a visual/cmd line monitor of the onboard linux system
+
 Input Parsed Utilities 2030-3303
 {
 	
 }
+
 Get Input/Input Parse 3314-3712
+
 Main 3714-3866
 	// Main fuction sets the mode of the robot and then establishes a corresponding server thread
 	// After establishing the server thread, the main function sits in forever loop
